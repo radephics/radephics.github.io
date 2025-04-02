@@ -320,7 +320,42 @@
 
 						  <div class="art-buttons-frame">
                             <!-- button -->
-                            <a href="#." class="art-btn art-btn-md" onclick="enableMusic() return false;"><span>Play Music</span></a>
+				<a href="#" class="art-btn art-btn-md" onclick="enableMusic(); return false;">
+				  <span id="musicButtonText">Play Music</span>
+				</a>
+				
+				<!-- Audio element (add this near your other JS scripts) -->
+				<audio id="bgMusic" loop>
+				  <source src="img/audio/Corporate.mp3" type="audio/mpeg">
+				  Your browser does not support audio element.
+				</audio>
+				
+				<script>
+				  // Music control function
+				  function enableMusic() {
+				    const audio = document.getElementById('bgMusic');
+				    const buttonText = document.getElementById('musicButtonText');
+				    
+				    if (audio.paused) {
+				      audio.play()
+				        .then(() => {
+				          buttonText.textContent = "Pause Music";
+				        })
+				        .catch(error => {
+				          alert("Audio playback failed: " + error.message);
+				        });
+				    } else {
+				      audio.pause();
+				      buttonText.textContent = "Play Music";
+				    }
+				  }
+				  
+				  // Set volume to 30% by default
+				  document.addEventListener('DOMContentLoaded', function() {
+				    document.getElementById('bgMusic').volume = 0.3;
+				  });
+				</script>
+
                             <!-- button -->
                             <a href="#." class="art-link art-white-link art-w-chevron">start chat</a>
                           </div>
@@ -1400,39 +1435,8 @@
   <div class="art-preloader-content">
     <h4 class="txt-rotate" data-period="2000" data-rotate='[ "loading..." ]'></h4>
     <div id="preloader" class="art-preloader-load"></div>
-    <!-- Add music control here -->
-    <div id="musicControl" style="margin-top: 20px; display: none;">
-      <p style="color: white; font-size: 12px;">Background music is available</p>
-      <button onclick="enableMusic()" style="background: #2B2B35; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer;">
-        Enable Music
-      </button>
-    </div>
   </div>
 </div>
-
-<audio id="bgMusic" loop>
-  <source src="img/audio/Corporate.mp3" type="audio/mpeg">
-</audio>
-
-<script>
-  // Add this to your existing JS
-  document.addEventListener('DOMContentLoaded', function() {
-    const audio = document.getElementById('bgMusic');
-    audio.volume = 0.3;
-    
-    // Try autoplay
-    audio.play().catch(e => {
-      console.log("Autoplay blocked, showing control");
-      document.getElementById('musicControl').style.display = 'block';
-    });
-  });
-  
-  function enableMusic() {
-    const audio = document.getElementById('bgMusic');
-    audio.play();
-    document.getElementById('musicControl').style.display = 'none';
-  }
-</script>
 
   </div>
   <!-- app end -->
